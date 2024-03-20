@@ -1,28 +1,35 @@
-<script setup lang="js">
-const items = [
-  "/MotorImage/CarouselImage/Bike1.webp",
-  "/MotorImage/CarouselImage/Bike2.webp",
-  "/MotorImage/CarouselImage/Bike3.webp",
-  "/MotorImage/CarouselImage/Bike4.webp",
-  "/MotorImage/CarouselImage/Bike5.webp",
-  "/MotorImage/CarouselImage/Bike6.webp",
+<script setup lang="">
+import { ref, onMounted } from "vue";
 
+const items = [
+  "https://picsum.photos/1920/1080?random=1",
+  "https://picsum.photos/1920/1080?random=2",
+  "https://picsum.photos/1920/1080?random=3",
+  "https://picsum.photos/1920/1080?random=4",
+  "https://picsum.photos/1920/1080?random=5",
+  "https://picsum.photos/1920/1080?random=6",
 ];
 
 const carouselRef = ref();
 const counter = ref(1);
 
-
-
 onMounted(() => {
   setInterval(() => {
-    const button = document.querySelector(`button[aria-label="set slide ${counter.value}"]`);
+    if (counter.value > items.length) {
+      counter.value = 1; // Reset the counter if it exceeds the length of items array
+    }
+    const button = document.querySelector(
+      `button[aria-label="set slide ${counter.value}"]`
+    );
     if (button) {
-      if(counter.value > 5){
-        counter.value = 0;
-      }
+      button.addEventListener("click", handleClick);
       button.click();
-      counter.value++
+    }
+    function handleClick(event) {
+      counter.value++;
+      const ariaLabelValue = event.target.getAttribute("aria-label");
+      const lastElement = parseInt(ariaLabelValue.split(" ").pop(), 10); // Convert the last element to an integer
+      counter.value = lastElement + 1;
     }
   }, 3000);
 });
