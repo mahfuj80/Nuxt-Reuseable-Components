@@ -1,5 +1,5 @@
-<script setup></script>
+<script lang="" setup></script>
 
 <template>
-  <h1>This is index Page</h1>
+  <MiniFunctionalRatingStar />
 </template>
